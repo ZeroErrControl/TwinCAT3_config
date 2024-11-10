@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{4404c240-9f3d-4bc8-84fa-e178cd1bb481}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	BOOL1 :BOOL;
+	axis1: AXIS_REF;
+	
+	fbPower: MC_Power;
+    fbMoveAbsolute: MC_MoveAbsolute;
+    fbMoveVelocity: MC_MoveVelocity;
+
+    bEnable: BOOL := FALSE; (* 电机使能变量 *)
+    bMove: BOOL := FALSE; (* 电机移动指令变量 *)
+	
+	fbJog: MC_Jog;  (* Jog 功能块 *)
+ 
+    bJogForward: BOOL := FALSE;  (* 向前 Jog 的指令 *)
+    bJogBackward: BOOL := FALSE; (* 向后 Jog 的指令 *)
+    JogSpeed: LREAL := 500.0;    (* Jog 的速度 *)
+	
+	LRvelocity : LREAL  := 10000;
+	
+	fbTorqueControl: MC_TorqueControl;  (* 力矩控制功能块 *)
+
+    bTorqueControl: BOOL := FALSE; (* 力控模式启动标志 *)
+    TorqueValue: LREAL := 5.0;   (* 施加的力矩 *)
+    MaxTorque: LREAL := 10.0;    (* 最大允许力矩 *)
+    MinTorque: LREAL := -10.0;   (* 最小允许力矩 *)
+    MaxVelocity: LREAL := 10000.0;    (* 最大允许速度 *)
+    MinVelocity: LREAL := -10000.0;   (* 最小允许速度 *)
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+(* 电机使能 *)
+fbPower(Axis := Axis1, Enable := bEnable, Enable_Positive := TRUE, Enable_Negative := TRUE);
+
+(* 绝对位置移动 *)
+fbMoveAbsolute(Axis := Axis1, Position := 0, Execute := bMove, Velocity := 50000.0, Acceleration := 1000.0, Deceleration := 1000.0, Jerk := 1000.0);
+
+fbTorqueControl(Axis := Axis1, Torque := TorqueValue, Execute := bTorqueControl, TorqueRamp := 1000.0,VelocityLimitHigh := MaxVelocity, VelocityLimitLow := MinVelocity);
+
+(* 前向 Jog 操作 *)
+//fbJog(Axis := Axis1, JogForward := bJogForward, JogBackwards := bJogBackward, Velocity := JogSpeed, Acceleration := 1000.0, Deceleration := 1000.0, Jerk := 1000.0);
+
+(* 如果需要速度控制，也可以使用 MC_MoveVelocity 函数 *)
+//fbMoveVelocity(Axis := Axis1, Velocity := LRvelocity, Execute := bMove, Acceleration := 10000.0, Deceleration := 10000.0, Jerk := 1000.0);]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="15" Count="0" />
+      <LineId Id="33" Count="4" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
