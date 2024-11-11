@@ -1,7 +1,5 @@
 ﻿# TwinCAT3_config
 ---
-sidebar_position: 2
----
 
 # TwinCAT3 (Windows)
 ---
