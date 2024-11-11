@@ -1,5 +1,3 @@
-﻿# TwinCAT3_config
----
 
 # TwinCAT3 (Windows)
 ---
