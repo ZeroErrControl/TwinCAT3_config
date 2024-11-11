@@ -254,22 +254,5 @@ reverse at a fast or slow velocity. Click “F8”
 
 To control eRob using PLC programming, it is necessary to understand the relationship between the `NC axis`, `PLC axis`, and `physical axis` in TwinCAT. Additionally, the mapping relationship between the object dictionary and the NC axis can be configured according to the documentation provided on the [Beckhoff official website](https://infosys.beckhoff.com/english.php?content=../content/1033/tf50x0_tc3_nc_ptp/10650582539.html&id=9197998846476281621).   
 Relationship diagram for reference only:
-```mermaid
-flowchart TD
-   
 
-    subgraph TwinCAT System
-        A
-        B
-        C[eRob]
-    end
-    A[PLC Axis] -->|Uses Function Blocks| B[NC Axis]
-    B -->|Path Planning <br> Trajectory Generation| C
-    C <-->|Mapping through<br>NC axis variables| B
-    A <-.->|Mapping through<br>Global Variables| C
-
-    style A fill:#f9f,stroke:#333,stroke-width:4px
-    style B fill:#9cf,stroke:#333,stroke-width:4px
-    style C fill:#f96,stroke:#333,stroke-width:4px
-    ```
 Here, a deep understanding of TwinCAT usage is required. If needed, additional configuration instructions will be provided later to ensure that eRob can be driven by connecting the NC axis via the PLC axis using the built-in functions in TwinCAT. A pre-configured program is provided [here](https://git.zeroerr.cn/Don/TC3_demo) as a reference.
